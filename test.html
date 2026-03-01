@@ -1,16 +1,88 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="test.css">
-        </head>
-      
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SysAdmin Control Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
-        <form method="get" action="http://localhost:4444"><table>
-            <tr><thead> My Response: </thead>
-            <td value="trsp"></td></tr>
-            </table></form>
-            <form method="post" action="http://localhost:4444">
-               <label for="ure"> Wt is ur response?:<label><input type="text" id="ure" name="ure"><br><br>
-                <input type="submit" value="submit">
-        </form>
-    </body>
+    <div class="dashboard-grid">
+        
+        <!-- 1. SECURE REGISTRATION FORM -->
+        <section class="panel">
+            <h2>Admin Registration</h2>
+            <form id="adminForm">
+                <div class="input-group">
+                    <label for="username">Username (Alphanumeric, 4-16 chars)</label>
+                    <input type="text" id="username" name="username" 
+                           pattern="^[a-zA-Z0-9]{4,16}$" required 
+                           placeholder="sysadmin_01">
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password (Min 8 chars, 1 Upper, 1 Lower, 1 Number)</label>
+                    <!-- Regex enforces at least one digit, one lowercase, one uppercase, and minimum 8 characters -->
+                    <input type="password" id="password" name="password" 
+                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required 
+                           placeholder="••••••••">
+                </div>
+                
+                <button type="submit">Provision Account</button>
+            </form>
+        </section>
+
+        <!-- 2. SYSTEM DASHBOARD (SVG + Canvas) -->
+        <section class="panel">
+            <h2>Server Diagnostics</h2>
+            <div class="diagnostics-container">
+                <!-- SVG Static Infrastructure -->
+                <svg class="server-rack" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Rack Frame -->
+                    <rect x="10" y="10" width="80" height="100" fill="#2d2d2d" stroke="#555" stroke-width="2" rx="4"/>
+                    <!-- Server 1 -->
+                    <rect x="15" y="20" width="70" height="20" fill="#444" rx="2"/>
+                    <circle cx="25" cy="30" r="3" fill="#00ff00">
+                        <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+                    </circle>
+                    <rect x="35" y="28" width="40" height="4" fill="#666"/>
+                    <!-- Server 2 -->
+                    <rect x="15" y="45" width="70" height="20" fill="#444" rx="2"/>
+                    <circle cx="25" cy="55" r="3" fill="#00ff00">
+                        <animate attributeName="opacity" values="1;0.2;1" dur="0.5s" repeatCount="indefinite"/>
+                    </circle>
+                    <rect x="35" y="53" width="40" height="4" fill="#666"/>
+                    <!-- Server 3 -->
+                    <rect x="15" y="70" width="70" height="20" fill="#444" rx="2"/>
+                    <circle cx="25" cy="80" r="3" fill="#ff3333"/>
+                    <rect x="35" y="78" width="40" height="4" fill="#666"/>
+                </svg>
+
+                <!-- Canvas CPU Graph -->
+                <div class="canvas-wrapper">
+                    <span>CPU Load (%)</span>
+                    <canvas id="cpuGraph" width="300" height="100"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. CUSTOM MEDIA PLAYER -->
+        <section class="panel">
+            <h2>Datacenter Surveillance feed</h2>
+            <div class="custom-player">
+                <!-- Controls hidden by omitting the 'controls' attribute -->
+                <video id="cctvVideo" src="https://www.w3schools.com/html/mov_bbb.mp4" muted></video>
+                
+                <div class="player-controls">
+                    <button id="playPauseBtn">▶ Play</button>
+                    <input type="range" id="seekSlider" min="0" max="100" value="0" step="1">
+                    <span id="timeDisplay">0:00 / 0:00</span>
+                    <button id="muteBtn">🔊</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
